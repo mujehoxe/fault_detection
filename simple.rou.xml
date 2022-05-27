@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2022-05-23 22:08:39 by Eclipse SUMO netedit Version v1_12_0+1884-126832ce78c
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <!-- VTypes -->
+    <vType id="coach" maxSpeed="30.00" speedFactor="normc(1.00,0.05,0.20,2.00)" vClass="coach"/>
+    <vType id="normal_car" maxSpeed="40.00" speedFactor="normc(0.90,0.20,0.20,2.00)" vClass="passenger" sigma="0.5"/>
+    <vType id="sporty_car" maxSpeed="60.00" speedFactor="normc(1.30,0.10,0.20,2.00)" vClass="passenger" sigma="0.1"/>
+    <vType id="trailer" maxSpeed="30.00" speedFactor="normc(1.00,0.05,0.20,2.00)" vClass="trailer"/>
+    <!-- Vehicles, persons and containers (sorted by depart) -->
+    <flow id="coach1" type="coach" begin="0.00" departLane="free" departSpeed="avg" from="-E5" to="E5" end="86400" period="exp(0.003)"/>
+    <flow id="normal1" type="normal_car" begin="0.00" departLane="free" departSpeed="avg" from="-E5" to="E5" end="86400" period="exp(0.030)"/>
+    <flow id="sporty1" type="sporty_car" begin="0.00" departLane="free" departSpeed="avg" from="-E5" to="E5" end="86400" period="exp(0.030)"/>
+    <flow id="trailer1" type="trailer" begin="0.00" departLane="0" departSpeed="avg" from="-E5" to="E5" end="86400" period="exp(0.002)"/>
+
+    <flow id="coach2" type="coach" begin="0.00" departLane="free" departSpeed="avg" from="E0" to="E5" end="86400" period="exp(0.070)"/>
+    <flow id="normal2" type="normal_car" begin="0.00" departLane="1" departSpeed="avg" from="E0" to="E5" end="86400" period="exp(.30)"/>
+    <flow id="sporty2" type="sporty_car" begin="0.00" departLane="free" departSpeed="avg" from="E0" to="E5" end="86400" period="exp(.300)"/>
+    <flow id="trailer2" type="trailer" begin="0.00" departLane="0" departSpeed="avg" from="E0" to="E5" end="86400" period="exp(.050)"/>
+
+    <flow id="coach3" type="coach" begin="0.00" departLane="free" departSpeed="avg" from="E0" to="-E0" end="86400" period="exp(.003)"/>
+    <flow id="normal3" type="normal_car" begin="0.00" departLane="free" departSpeed="avg" from="E0" to="-E0" end="86400" period="exp(.030)"/>
+    <flow id="sporty3" type="sporty_car" begin="0.00" departLane="free" departSpeed="avg" from="E0" to="-E0" end="86400" period="exp(0.030)"/>
+    <flow id="trailer3" type="trailer" begin="0.00" departLane="0" departSpeed="avg" from="E0" to="-E0" end="10000.00" period="exp(0.002)"/>
+
+    <flow id="coach4" type="coach" begin="0.00" departLane="free" departSpeed="avg" from="-E5" to="-E0" end="86400" period="exp(0.070)"/>
+    <flow id="normal4" type="normal_car" begin="0.00" departLane="1" departSpeed="avg" from="-E5" to="-E0" end="86400" period="exp(.300)"/>
+    <flow id="sporty4" type="sporty_car" begin="0.00" departLane="free" departSpeed="avg" from="-E5" to="-E0" end="86400" period="exp(.300)"/>
+    <flow id="trailer4" type="trailer" begin="0.00" departLane="0" departSpeed="avg" from="-E5" to="-E0" end="86400" period="exp(0.050)"/>
+
+    <flow id="coach5" type="coach" begin="0.00" departLane="free" departSpeed="avg" from="E0" to="E16" end="86400" period="exp(0.070)"/>
+    <flow id="normal5" type="normal_car" begin="0.00" departLane="1" departSpeed="avg" from="E0" to="E16" end="86400" period="exp(.300)"/>
+    <flow id="sporty5" type="sporty_car" begin="0.00" departLane="free" departSpeed="avg" from="E0" to="E16" end="86400" period="exp(.200)"/>
+    <flow id="trailer5" type="trailer" begin="0.00" departLane="0" departSpeed="avg" from="E0" to="E16" end="86400" period="exp(.100)"/>
+
+    <flow id="coach6" type="coach" begin="0.00" departLane="free" departSpeed="avg" from="-E5" to="-E16" end="86400" period="exp(0.070)"/>
+    <flow id="normal6" type="normal_car" begin="0.00" departLane="1" departSpeed="avg" from="-E5" to="-E16" end="86400" period="exp(.300)"/>
+    <flow id="sporty6" type="sporty_car" begin="0.00" departLane="free" departSpeed="avg" from="-E5" to="-E16" end="86400" period="exp(.300)"/>
+    <flow id="trailer6" type="trailer" begin="0.00" departLane="0" departSpeed="avg" from="-E5" to="-E16" end="86400" period="exp(0.070)"/>
+
+    <flow id="coach8" type="coach" begin="0.00" departLane="free" departSpeed="avg" from="E3" to="-E0" end="86400" period="exp(0.003)"/>
+    <flow id="normal8" type="normal_car" begin="0.00" departLane="free" departSpeed="avg" from="E3" to="-E0" end="86400" period="exp(0.010)"/>
+    <flow id="sporty8" type="sporty_car" begin="0.00" departLane="free" departSpeed="avg" from="E3" to="-E0" end="86400" period="exp(0.010)"/>
+    <flow id="trailer8" type="trailer" begin="0.00" departLane="0" departSpeed="avg" from="E3" to="-E0" end="86400" period="exp(0.004)"/>
+
+    <flow id="coach9" type="coach" begin="0.00" departLane="free" departSpeed="avg" from="E3" to="E16" end="86400" period="exp(0.010)"/>
+    <flow id="normal9" type="normal_car" begin="0.00" departLane="free" departSpeed="avg" from="E3" to="E16" end="86400" period="exp(0.090)"/>
+    <flow id="sporty9" type="sporty_car" begin="0.00" departLane="free" departSpeed="avg" from="E3" to="E16" end="86400" period="exp(0.090)"/>
+    <flow id="trailer9" type="trailer" begin="0.00" departLane="0" departSpeed="avg" from="E3" to="E16" end="86400" period="exp(0.010)"/>
+
+    <flow id="coach11" type="coach" begin="0.00" departLane="free" departSpeed="avg" from="E3" to="E5" end="86400" period="exp(0.010)"/>
+    <flow id="normal11" type="normal_car" begin="0.00" departLane="free" departSpeed="avg" from="E3" to="E5" end="86400" period="exp(0.090)"/>
+    <flow id="sporty11" type="sporty_car" begin="0.00" departLane="free" departSpeed="avg" from="E3" to="E5" end="86400" period="exp(0.090)"/>
+    <flow id="trailer11" type="trailer" begin="0.00" departLane="0" departSpeed="avg" from="E3" to="E5" end="86400" period="exp(0.010)"/>
+
+    <flow id="coach10" type="coach" begin="0.00" departLane="free" departSpeed="avg" from="E4" to="-E16" end="86400" period="exp(0.010)"/>
+    <flow id="normal10" type="normal_car" begin="0.00" departLane="free" departSpeed="avg" from="E4" to="-E16" end="86400" period="exp(.10)"/>
+    <flow id="sporty10" type="sporty_car" begin="0.00" departLane="free" departSpeed="avg" from="E4" to="-E16" end="86400" period="exp(.100)"/>
+    <flow id="trailer10" type="trailer" begin="0.00" departLane="0" departSpeed="avg" from="E4" to="-E16" end="86400" period="exp(0.010)"/>
+
+    <flow id="coach12" type="coach" begin="0.00" departLane="free" departSpeed="avg" from="E4" to="-E0" end="86400" period="exp(0.010)"/>
+    <flow id="normal12" type="normal_car" begin="0.00" departLane="free" departSpeed="avg" from="E4" to="-E0" end="86400" period="exp(0.090)"/>
+    <flow id="sporty12" type="sporty_car" begin="0.00" departLane="free" departSpeed="avg" from="E4" to="-E0" end="86400" period="exp(0.090)"/>
+    <flow id="trailer12" type="trailer" begin="0.00" departLane="0" departSpeed="avg" from="E4" to="-E0" end="86400" period="exp(0.010)"/>
+
+    <flow id="coach7" type="coach" begin="0.00" departLane="free" departSpeed="avg" from="E4" to="E5" end="86400" period="exp(0.003)"/>
+    <flow id="normal7" type="normal_car" begin="0.00" departLane="free" departSpeed="avg" from="E4" to="E5" end="86400" period="exp(0.010)"/>
+    <flow id="sporty7" type="sporty_car" begin="0.00" departLane="free" departSpeed="avg" from="E4" to="E5" end="86400" period="exp(0.010)"/>
+    <flow id="trailer7" type="trailer" begin="0.00" departLane="0" departSpeed="avg" from="E4" to="E5" end="86400" period="exp(0.003)"/>
+
+</routes>
