@@ -1,7 +1,9 @@
+import asyncio
+from chardet import detect
 import urwid
 from simulator import Simulator
 
-from state import State
+from state import State, InActive
 
 
 class Tui:
@@ -34,32 +36,41 @@ class Tui:
             urwid.Padding(self.menu(), left=2, right=2)
 
     def item_chosen(self, button, choice):
-        response = urwid.Text([u'Set ', choice, u' state', u'\n'])
-
-        back = urwid.Button(u'Back')
-
-        state_buttons = self.init_state_buttons(choice)
-
-        urwid.connect_signal(back, 'click', self.back_to_menu)
-        self.main.original_widget = urwid.Filler(
-            urwid.Pile(
-                [response,
-                 urwid.AttrMap(back, None, focus_map='reversed')]))
+        detector = self.simulator.get_detector_by_id(choice)
+        if(detector):
+            response = urwid.Text(
+                [u'Set ', detector._id, detector._state.name, u' state', u'\n'])
+            back = urwid.Button(u'Back')
+            state_buttons = self.init_state_buttons(detector, response)
+            urwid.connect_signal(back, 'click', self.back_to_menu)
+            pile = [response] + \
+                state_buttons + \
+                [urwid.AttrMap(back, None, focus_map='reversed')]
+            self.set_original_widget(pile)
 
     def exit_program(self, button):
         raise urwid.ExitMainLoop()
 
-    def init_state_buttons(self, choice):
+    def set_original_widget(self, pile):
+        self.main.original_widget = urwid.Filler(
+            urwid.Pile(pile))
 
-        def change_detector_state(state_name):
-            self.simulator.set_detector_state(choice, state_name)
+    def init_state_buttons(self, detector, response: urwid.Text):
+
+        def change_detector_state(button, state_name):
+            while(self.simulator.get_time().is_integer()):
+                pass
+            self.simulator.set_detector_state(detector, state_name)
+            #response.set_text([u'Set ', detector._id, detector._state.name, u' state', u'\n'])
 
         state_buttons = []
         for state_cls in State.__subclasses__():
             state_button = urwid.Button(state_cls.__name__)
             state_buttons.append(state_button)
             urwid.connect_signal(state_button, 'click',
-                                 change_detector_state, state_cls.__name__)
+                                 change_detector_state,
+                                 user_arg=state_cls.__name__)
+
         return state_buttons
 
     def run(self):

@@ -1,8 +1,20 @@
+import os
+import sys
 from threading import Thread
-from libsumo.libsumo import simulation
 from tui import Tui
 
 from simulator import Simulator
+from state import *
+
+
+def loop(simulator):
+    while(True):
+        line = input(">>> ").split()
+        expr = "simulator.set_detector_state('" + \
+            line[0] + "', '" + \
+            line[1] + "')"
+        print(line)
+        eval(expr)
 
 
 def main():
@@ -12,10 +24,12 @@ def main():
 
     Thread(target=simulator.simulate).start()
 
+    Thread(target=loop, args=(simulator,)).start()
+
     choices = simulator.getDetectorList() + ["exit"]
 
-    tui = Tui(choices, simulator)
-    tui.run()
+    #tui = Tui(choices, simulator)
+    # tui.run()
 
 
 if __name__ == "__main__":

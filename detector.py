@@ -14,32 +14,31 @@ import traci
 class Detector:
     def __init__(self, id, state: State):
         self._id = id
-        self.setState(state)
-
-    def setState(self, state: State):
+        self.subscribed = False
         self._state = state
-        self._state.setContext(self)
+        state.setContext(self)
+
+    def setState(self, state: State, lock):
+        if(self._state.name != state.name):
+            with lock:
+                self._state = state
+                state.setContext(self)
 
     def subscribe(self):
-        traci.inductionloop.subscribe(
-            self._id,
-            [traci.constants.LAST_STEP_VEHICLE_DATA])
+        if(self.subscribed == False):
+            self.subscribed = True
+            traci.inductionloop.subscribe(
+                self._id,
+                [traci.constants.LAST_STEP_VEHICLE_DATA])
 
     def unsubscribe(self):
-        traci.inductionloop.unsubscribe(self._id)
+        if(self.subscribed == True):
+            self.subscribed = False
+            traci.inductionloop.unsubscribe(self._id)
 
-    def get_reading(self):
-        return self._state.get_reading()
-
-    def get_speed_reading(self):
-        reading = self.get_reading()
-        speeds = []
-        if(isinstance(reading, list)):
-            for veh_data in reading:
-                if veh_data[3] != -1:
-                    speed = self.calculate_vehicle_speed(veh_data)
-                    speeds.append(self.mps_to_kmh(speed))
-        return speeds
+    def get_reading(self, lock):
+        with lock:
+            return self._state.get_reading()
 
     def calculate_vehicle_speed(self, veh_data):
         veh_length = veh_data[1]

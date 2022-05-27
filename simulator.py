@@ -1,5 +1,6 @@
 import os
 import sys
+import threading
 from typing import List
 
 from detector import Detector
@@ -12,21 +13,25 @@ else:
     sys.exit("please declare environment variable 'SUMO_HOME'")
 
 import traci
+from traci.connection import Connection
 
-sumoBinary = "/usr/local/share/sumo/bin/sumo-gui"
+sumoBinary = "/usr/local/share/sumo/bin/sumo"
 sumoCmd = [
     sumoBinary, "-c", "simple.sumocfg",
     "--step-length", "1",
     "--scale", ".2",
+    "--no-warnings", "true",
+    "--no-step-log",
     "--error-log", "log.txt"]
 
 
 class Simulator:
     def __init__(self) -> None:
-        traci.start(sumoCmd, port=8813)
+        traci.start(sumoCmd, port=8813, label="sim1")
         traci.setOrder(1)
         self.detectors: List[Detector] = []
         self.file = open('data.txt', 'a+', newline='')
+        self.lock = threading.Lock()
 
     def getDetectorList(self):
         l = []
@@ -39,35 +44,43 @@ class Simulator:
         for id in ids:
             d = Detector(id, state.Active())
             self.detectors.append(d)
-        self.detectors[0].setState(state.Faulty())
+        self.detectors[0].setState(state.Faulty(), self.lock)
 
     def get_all_readings(self):
-        readings = {'time': traci.simulation.getTime()}
+        readings = {'time': self.get_time()}
         for d in self.detectors:
-            reading = d.get_reading()
+            reading = d.get_reading(self.lock)
             if(reading != None):
                 readings[d._id] = reading
         return readings
+
+    def get_time(self):
+        with self.lock:
+            return traci.simulation.getTime()
 
     def get_detector_by_id(self, id):
         for d in self.detectors:
             if d._id == id:
                 return d
-        return None
 
-    def set_detector_state(self, choice, state_name):
-        d = self.get_detector_by_id(choice)
-        if(d != None):
-            module = __import__('state')
-            class_: state.State = getattr(module, state_name)
-            d.setState(class_)
+    def set_detector_state(self, detectorId, state_name):
+        detector = self.get_detector_by_id(detectorId)
+        module = __import__('state')
+        class_: state.State = getattr(module, state_name)()
+        detector.setState(class_, self.lock)
 
     def simulate(self):
-        while traci.simulation.getMinExpectedNumber() > 0:
+        def get_min_num():
+            with self.lock:
+                return traci.simulation.getMinExpectedNumber()
+
+        while get_min_num() > 0:
             self.file.write(str(self.get_all_readings()) + '\n')
             self.file.flush()
 
-            traci.simulationStep()
+            with self.lock:
+                traci.simulationStep()
 
-        traci.close()
+        with self.lock:
+            traci.close()
         print("done")
