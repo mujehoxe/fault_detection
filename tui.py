@@ -38,11 +38,18 @@ class Tui:
     def item_chosen(self, button, choice):
         detector = self.simulator.get_detector_by_id(choice)
         if(detector):
-            response = urwid.Text(
-                [u'Set ', detector._id, detector._state.name, u' state', u'\n'])
-            back = urwid.Button(u'Back')
+            response = urwid.Text([
+                u'Set ',
+                detector._id,
+                u' ',
+                detector._state.name,
+                u' state\n'])
+
             state_buttons = self.init_state_buttons(detector, response)
+
+            back = urwid.Button(u'Back')
             urwid.connect_signal(back, 'click', self.back_to_menu)
+
             pile = [response] + \
                 state_buttons + \
                 [urwid.AttrMap(back, None, focus_map='reversed')]
@@ -58,10 +65,13 @@ class Tui:
     def init_state_buttons(self, detector, response: urwid.Text):
 
         def change_detector_state(button, state_name):
-            while(self.simulator.get_time().is_integer()):
-                pass
-            self.simulator.set_detector_state(detector, state_name)
-            #response.set_text([u'Set ', detector._id, detector._state.name, u' state', u'\n'])
+            self.simulator.set_detector_state(detector.id, state_name)
+            response.set_text([
+                u'Set ',
+                detector._id,
+                u' ',
+                detector._state.name,
+                u' state\n'])
 
         state_buttons = []
         for state_cls in State.__subclasses__():

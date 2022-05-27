@@ -24,12 +24,12 @@ def main():
 
     Thread(target=simulator.simulate).start()
 
-    Thread(target=loop, args=(simulator,)).start()
+    #Thread(target=loop, args=(simulator,)).start()
 
     choices = simulator.getDetectorList() + ["exit"]
 
-    #tui = Tui(choices, simulator)
-    # tui.run()
+    tui = Tui(choices, simulator)
+    tui.run()
 
 
 if __name__ == "__main__":
