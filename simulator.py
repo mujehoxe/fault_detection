@@ -1,5 +1,6 @@
 import os
 import sys
+
 import threading
 from typing import List
 
@@ -25,7 +26,19 @@ sumoCmd = [
     "--error-log", "log.txt"]
 
 
-class Simulator:
+class Observable:
+
+    observers = []
+
+    def add_observer(self, o):
+        self.observers.append(o)
+
+    def notify_observers(self, msg):
+        for o in self.observers:
+            o.send(msg)
+
+
+class Simulator(Observable):
     def __init__(self) -> None:
         traci.start(sumoCmd, port=8813, label="sim1")
         traci.setOrder(1)
@@ -33,18 +46,18 @@ class Simulator:
         self.file = open('data.txt', 'a+', newline='')
         self.lock = threading.Lock()
 
-    def getDetectorList(self):
-        l = []
-        for d in self.detectors:
-            l.append(d._id)
-        return l
-
     def initDetectors(self):
         ids = traci.inductionloop.getIDList()
         for id in ids:
             d = Detector(id, state.Active())
             self.detectors.append(d)
         self.detectors[0].setState(state.Faulty(), self.lock)
+
+    def getDetectorList(self):
+        l = []
+        for d in self.detectors:
+            l.append(d._id)
+        return l
 
     def get_all_readings(self):
         readings = {'time': self.get_time()}
@@ -63,8 +76,8 @@ class Simulator:
             if d._id == id:
                 return d
 
-    def set_detector_state(self, detectorId, state_name):
-        detector = self.get_detector_by_id(detectorId)
+    def set_detector_state(self, detector_id, state_name):
+        detector = self.get_detector_by_id(detector_id)
         module = __import__('state')
         class_: state.State = getattr(module, state_name)()
         detector.setState(class_, self.lock)
@@ -75,8 +88,11 @@ class Simulator:
                 return traci.simulation.getMinExpectedNumber()
 
         while get_min_num() > 0:
-            self.file.write(str(self.get_all_readings()) + '\n')
+            data = self.get_all_readings()
+            self.file.write(str(data) + '\n')
             self.file.flush()
+
+            self.notify_observers(data)
 
             with self.lock:
                 traci.simulationStep()
