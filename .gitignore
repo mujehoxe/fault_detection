@@ -11,3 +11,6 @@ e1_8.xml
 e1_9.xml
 log.txt
 string.text
+.vscode
+.vim
+__pycache__
