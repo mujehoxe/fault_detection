@@ -1,20 +1,8 @@
-import os
-import sys
 from threading import Thread
+from sender import Sender
 from tui import Tui
 
 from simulator import Simulator
-from state import *
-
-
-def loop(simulator):
-    while(True):
-        line = input(">>> ").split()
-        expr = "simulator.set_detector_state('" + \
-            line[0] + "', '" + \
-            line[1] + "')"
-        print(line)
-        eval(expr)
 
 
 def main():
@@ -23,8 +11,7 @@ def main():
     simulator.initDetectors()
 
     Thread(target=simulator.simulate).start()
-
-    #Thread(target=loop, args=(simulator,)).start()
+    Sender(simulator)
 
     choices = simulator.getDetectorList() + ["exit"]
 
