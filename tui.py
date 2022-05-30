@@ -65,7 +65,7 @@ class Tui:
     def init_state_buttons(self, detector, response: urwid.Text):
 
         def change_detector_state(button, state_name):
-            self.simulator.set_detector_state(detector.id, state_name)
+            self.simulator.set_detector_state(detector._id, state_name)
             response.set_text([
                 u'Set ',
                 detector._id,
