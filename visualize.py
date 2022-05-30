@@ -17,7 +17,9 @@ data = pd.DataFrame(columns=range(11))
 
 
 def init():
-    for l in file:
+    for i,l in enumerate(file, start=1):
+        if (i == 10000):
+            break
         populate_data(l)
     s = data['e1_8'].dropna()
     line.set_data(s.index, s)
@@ -40,7 +42,7 @@ def populate_data(file_line):
 
 
 def on_file_change(arg):
-    l = file.readline()
+    l = file.readline(1024)
     if not l:
         print('Nothing New')
     else:
