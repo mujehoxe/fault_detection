@@ -17,7 +17,7 @@ data = pd.DataFrame(columns=range(11))
 
 
 def init():
-    for i,l in enumerate(file, start=1):
+    for i, l in enumerate(file, start=1):
         if (i == 10000):
             break
         populate_data(l)
@@ -112,10 +112,15 @@ def adjust_axis():
         ax.figure.canvas.draw()
 
 
-ani = animation.FuncAnimation(
-    fig,
-    on_file_change,
-    interval=1000,
-    init_func=init)
+def main():
+    ani = animation.FuncAnimation(
+        fig,
+        on_file_change,
+        interval=1000,
+        init_func=init)
 
-plt.show()
+    plt.show()
+
+
+if __name__ == "__main__":
+    main()
