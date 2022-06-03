@@ -20,7 +20,6 @@ sumoBinary = "/usr/local/share/sumo/bin/sumo"
 sumoCmd = [
     sumoBinary, "-c", "simple.sumocfg",
     "--step-length", "1",
-    "--scale", ".2",
     "--no-warnings", "true",
     "--no-step-log",
     "--error-log", "log.txt"]
@@ -33,18 +32,45 @@ class Observable:
     def add_observer(self, o):
         self.observers.append(o)
 
+    def remove_observer(self, obj):
+        if obj in self.observers:
+            self.observers.remove(obj)
+
     def notify_observers(self, msg):
         for o in self.observers:
-            o.send(msg)
+            o.update(msg)
 
 
 class Simulator(Observable):
+
     def __init__(self) -> None:
-        traci.start(sumoCmd, port=8813, label="sim1")
+        traci.start(sumoCmd, port=8813, label="sim1")  # type: ignore
         traci.setOrder(1)
         self.detectors: List[Detector] = []
         self.file = open('data.txt', 'a+', newline='')
         self.lock = threading.Lock()
+
+    def simulate(self):
+        def get_min_num():
+            with self.lock:
+                return traci.simulation.getMinExpectedNumber()
+
+        while get_min_num() > 0:
+            data = self.get_all_readings()
+            #self.file.write(str(data) + '\n')
+            # self.file.flush()
+
+            self.notify_observers(data)
+
+            with self.lock:
+                traci.simulationStep()
+
+        self.close()
+
+    def close(self):
+        with self.lock:
+            traci.close()
+        print("done")
 
     def initDetectors(self):
         ids = traci.inductionloop.getIDList()
@@ -80,23 +106,10 @@ class Simulator(Observable):
         detector = self.get_detector_by_id(detector_id)
         module = __import__('state')
         class_: state.State = getattr(module, state_name)()
-        detector.setState(class_, self.lock)
+        if(detector):
+            detector.setState(class_, self.lock)
 
-    def simulate(self):
-        def get_min_num():
-            with self.lock:
-                return traci.simulation.getMinExpectedNumber()
-
-        while get_min_num() > 0:
-            data = self.get_all_readings()
-            self.file.write(str(data) + '\n')
-            self.file.flush()
-
-            self.notify_observers(data)
-
-            with self.lock:
-                traci.simulationStep()
-
+    def set_traffic_scale(self, scale):
         with self.lock:
-            traci.close()
-        print("done")
+            traci.simulation.setScale(scale)
+            print(traci.simulation.getScale())
