@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2022-05-25 08:53:46 by Eclipse SUMO netedit Version v1_12_0+1884-126832ce78c
+<!-- generated on 2022-06-03 14:54:12 by Eclipse SUMO netedit Version v1_12_0+1884-126832ce78c
 -->
 
 <additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
     <!-- Detectors -->
-    <e1Detector id="e1_0" lane="E0_1" pos="80.33" freq="300.00" file="e1_0.xml"/>
-    <e1Detector id="e1_1" lane="E0_0" pos="79.28" freq="300.00" file="e1_1.xml"/>
-    <e1Detector id="e1_2" lane="E2_1" pos="51.42" freq="300.00" file="e1_2.xml"/>
-    <e1Detector id="e1_3" lane="E2_0" pos="51.23" freq="300.00" file="e1_3.xml"/>
-    <e1Detector id="e1_4" lane="E13_0" pos="35.43" freq="300.00" file="e1_4.xml"/>
-    <e1Detector id="e1_5" lane="E13_1" pos="35.91" freq="300.00" file="e1_5.xml"/>
-    <e1Detector id="e1_6" lane="E5_0" pos="33.03" freq="300.00" file="e1_6.xml"/>
-    <e1Detector id="e1_7" lane="E5_1" pos="33.12" freq="300.00" file="e1_7.xml"/>
-    <e1Detector id="e1_8" lane="E0_2" pos="79.51" freq="300.00" file="e1_8.xml"/>
-    <e1Detector id="e1_9" lane="E5_2" pos="32.87" freq="300.00" file="e1_9.xml"/>
+    <e1Detector id="sen0" lane="E0_2" pos="79.51" freq="3600.00" file="sen0.xml"/>
+    <e1Detector id="sen1" lane="E0_1" pos="80.33" freq="3600.00" file="sen1.xml"/>
+    <e1Detector id="sen2" lane="E0_0" pos="79.28" freq="3600.00" file="sen2.xml"/>
+    <e1Detector id="sen3" lane="E2_1" pos="51.42" freq="3600.00" file="sen3.xml"/>
+    <e1Detector id="sen4" lane="E2_0" pos="51.23" freq="3600.00" file="sen4.xml"/>
+    <e1Detector id="sen5" lane="E5_2" pos="32.87" freq="3600.00" file="sen5.xml"/>
+    <e1Detector id="sen6" lane="E5_1" pos="33.12" freq="3600.00" file="sen6.xml"/>
+    <e1Detector id="sen7" lane="E5_0" pos="33.03" freq="3600.00" file="sen7.xml"/>
+    <e1Detector id="sen8" lane="E13_1" pos="35.91" freq="3600.00" file="sen8.xml"/>
+    <e1Detector id="sen9" lane="E13_0" pos="35.43" freq="3600.00" file="sen9.xml"/>
 </additional>
