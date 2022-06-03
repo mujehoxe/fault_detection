@@ -1,4 +1,5 @@
 from threading import Thread
+from daily_aggregator import DailyAggregator
 from sender import Sender
 from tui import Tui
 
@@ -10,6 +11,7 @@ def main():
     simulator = Simulator()
     simulator.initDetectors()
 
+    DailyAggregator(simulator)
     Thread(target=simulator.simulate).start()
     Sender(simulator)
 
