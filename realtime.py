@@ -29,7 +29,8 @@ def on_data_recieved(data):
 
 def detect_objects_liveliness(last_time):
     for o in objects:
-        if last_time - o.last_sending_time > 10:
+        time_not_sending = last_time - o.last_sending_time
+        if time_not_sending > 10 and time_not_sending < 12:
             print(f"{last_time}  Detected: Object {o.id} not sending data")
 
 
