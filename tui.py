@@ -63,6 +63,9 @@ class Tui:
             urwid.Pile(pile))
 
     def init_state_buttons(self, detector, response: urwid.Text):
+        def all_subclasses(cls):
+            return set(cls.__subclasses__()).union(
+                [s for c in cls.__subclasses__() for s in all_subclasses(c)])
 
         def change_detector_state(button, state_name):
             self.simulator.set_detector_state(detector._id, state_name)
@@ -74,13 +77,12 @@ class Tui:
                 u' state\n'])
 
         state_buttons = []
-        for state_cls in State.__subclasses__():
+        for state_cls in all_subclasses(State):
             state_button = urwid.Button(state_cls.__name__)
             state_buttons.append(state_button)
             urwid.connect_signal(state_button, 'click',
                                  change_detector_state,
                                  user_arg=state_cls.__name__)
-
         return state_buttons
 
     def run(self):
