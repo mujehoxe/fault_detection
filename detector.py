@@ -17,6 +17,7 @@ class Detector:
         self.subscribed = False
         self._state = state
         state.setContext(self)
+        self.hour_of_data = []
 
     def setState(self, state: State, lock):
         if(self._state.name != state.name):
@@ -38,7 +39,16 @@ class Detector:
 
     def get_reading(self, lock):
         with lock:
-            return self._state.get_reading()
+            r = self._state.get_reading()
+            if(r):
+                self.hour_of_data.append(len(r))
+                return r
+
+    def init_hour_of_data(self):
+        self.hour_of_data = []
+
+    def get_sum_hour_of_data(self):
+        return sum(self.hour_of_data)
 
     def calculate_vehicle_speed(self, veh_data):
         veh_length = veh_data[1]
