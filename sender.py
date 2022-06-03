@@ -19,6 +19,9 @@ class Sender:
         while self.sock.connect_ex(self.addr) != 0:
             time.sleep(5)
 
+    def update(self, data):
+        self.send(data)
+
     def send(self, data):
         try:
             self.sock.sendall(bytes(json.dumps(data), encoding='utf-8'))
